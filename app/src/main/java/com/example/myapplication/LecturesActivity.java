@@ -4,7 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import java.util.ArrayList;
+
 public class LecturesActivity extends AppCompatActivity {
+
+    public ArrayList<Lecture> lectures;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -12,6 +16,7 @@ public class LecturesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lectures);
 
         LoadLectures loader = new LoadLectures();
+        loader.activity = this;
         loader.execute();
     }
 }
