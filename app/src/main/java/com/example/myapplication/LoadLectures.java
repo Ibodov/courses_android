@@ -3,6 +3,8 @@ package com.example.myapplication;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,5 +48,12 @@ public class LoadLectures extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(activity.getApplicationContext(), LinearLayoutManager.VERTICAL,false);
+        activity.list.setLayoutManager(layoutManager);
+
+        LecturesAdapter adapter = new LecturesAdapter();
+        adapter.activity = activity;
+        activity.list.setAdapter(adapter);
     }
 }
