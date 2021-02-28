@@ -20,14 +20,16 @@ public class LoadToken extends AsyncTask<Void, Void, Void> {
     String jsonStr;
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
+    protected void onPreExecute() { super.onPreExecute();
+        activity.button.setVisibility(View.INVISIBLE);
+        activity.loading.setVisibility(View.VISIBLE);
     }
 
 
     @Override
     protected Void doInBackground(Void... arg0) {
         HTTPHandler sh = new HTTPHandler();
+        //Вызов бэкенда
         jsonStr = sh.makeServiceCall( "https://mncc-android3-courses-backend.k1.cybernet.tj/auth?login=" + activity.login.getText() + "&password=" + activity.password.getText());
 
         return null;
@@ -37,18 +39,32 @@ public class LoadToken extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
-
-        if (jsonStr.equals("400\n")) {
-            activity.error.setVisibility(View.VISIBLE);
+        //Отсутсвие интернета
+        if (jsonStr == null) {
+            activity.n_connection.setVisibility(View.VISIBLE);
+            activity.error.setVisibility(View.INVISIBLE);
+            activity.loading.setVisibility(View.INVISIBLE);
+            activity.button.setVisibility(View.VISIBLE);
         } else {
-            SharedPreferences.Editor editor = activity.getSharedPreferences("courses", 0).edit();
-            editor.putString("token", jsonStr);
-            editor.apply();
+            //Неправильный логин или пароль
+            if (jsonStr.equals("400\n")) {
+                activity.error.setVisibility(View.VISIBLE);
+                activity.n_connection.setVisibility(View.INVISIBLE);
+                activity.loading.setVisibility(View.INVISIBLE);
+                activity.button.setVisibility(View.VISIBLE);
+            } else {//Окно загрузки
+                activity.loading.setVisibility(View.INVISIBLE);
+                activity.button.setVisibility(View.VISIBLE);
 
-            Intent intent = new Intent(activity.getApplicationContext(), LecturesActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            activity.getApplicationContext().startActivity(intent);
-
+                //Сохранение токена
+                SharedPreferences.Editor editor = activity.getSharedPreferences("courses", 0).edit();
+                editor.putString("token", jsonStr);
+                editor.apply();
+                //Переход в активити
+                Intent intent = new Intent(activity.getApplicationContext(), LecturesActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                activity.getApplicationContext().startActivity(intent);
+            }
         }
     }
 }
