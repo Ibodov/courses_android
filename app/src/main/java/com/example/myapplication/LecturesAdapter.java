@@ -3,9 +3,12 @@ package com.example.myapplication;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 public class LecturesAdapter extends RecyclerView.Adapter<LecturesAdapter.ViewHolder> {
 
@@ -26,22 +29,25 @@ public class LecturesAdapter extends RecyclerView.Adapter<LecturesAdapter.ViewHo
 
         public TextView title;
         public TextView published;
+        public ImageView photo;
 
         public ViewHolder(View view) {
             super(view);
 
             title = view.findViewById(R.id.title);
             published = view.findViewById(R.id.published);
+            photo = view.findViewById(R.id.photo);
 
         }
     }
-
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int index) {
 
         viewHolder.title.setText(activity.lectures.get(index).title);
         viewHolder.published.setText(activity.lectures.get(index).published);
+        Glide.with(activity.getApplicationContext()).load(activity.lectures.get(index).photo).into(viewHolder.photo);
+
 
     }
 

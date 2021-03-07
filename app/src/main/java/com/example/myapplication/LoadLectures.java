@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import org.json.JSONArray;
@@ -14,6 +15,9 @@ import java.util.ArrayList;
 public class LoadLectures extends AsyncTask<Void, Void, Void> {
 
     public LecturesActivity activity;
+    String jsonStr;
+    public LecturesDatabase db;
+    public ArrayList<Lecture> lectures;
 
     @Override
     protected void onPreExecute() {
@@ -21,19 +25,24 @@ public class LoadLectures extends AsyncTask<Void, Void, Void> {
         activity.lectures = new ArrayList<>();
     }
 
-
     @Override
     protected Void doInBackground(Void... arg0) {
         HTTPHandler sh = new HTTPHandler();
-        String jsonStr = sh.makeServiceCall( "https://mncc-android3-courses-backend.k1.cybernet.tj/lectures");
+        jsonStr = sh.makeServiceCall( "https://mncc-android3-courses-backend.k1.cybernet.tj/lectures");
+        if (jsonStr == null) {
+            jsonStr = "";
+        }
 
         try {
             JSONArray jsonArray = new JSONArray(jsonStr);
+            activity.db.wipeLectures();
             for (Integer i = 0; i < jsonArray.length(); i++) {
                 JSONObject json = jsonArray.getJSONObject(i);
                 Lecture lecture = new Lecture();
                 lecture.title = json.getString("title");
                 lecture.published = json.getString("published");
+                lecture.photo = json.getString("photo");
+                activity.db.insertLecture(lecture.title, lecture.published);
                 activity.lectures.add(lecture);
                 Log.e("Lecture " + i.toString(), lecture.title + " " + lecture.published);
             }
@@ -44,16 +53,27 @@ public class LoadLectures extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
-
     @Override
     protected void onPostExecute(Void result) {
         super.onPostExecute(result);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(activity.getApplicationContext(), LinearLayoutManager.VERTICAL,false);
-        activity.list.setLayoutManager(layoutManager);
+        if (jsonStr.equals("")) {
+            activity.lectures = activity.db.getLectures();
 
-        LecturesAdapter adapter = new LecturesAdapter();
-        adapter.activity = activity;
-        activity.list.setAdapter(adapter);
+            LecturesAdapter adapter = new LecturesAdapter();
+            adapter.activity = activity;
+            activity.list.setAdapter(adapter);
+        } else {
+            LecturesAdapter adapter = new LecturesAdapter();
+            adapter.activity = activity;
+            activity.list.setAdapter(adapter);
+        }
+
+/*
+        //Вывод столбцами
+        GridLayoutManager layoutManager = new GridLayoutManager(activity.getApplicationContext(), 2);
+        activity.list.setLayoutManager(layoutManager);
+*/
+
     }
 }
