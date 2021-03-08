@@ -42,7 +42,9 @@ public class LecturesLoader extends AsyncTask<Void, Void, Void> {
                 lecture.title = json.getString("title");
                 lecture.published = json.getString("published");
                 lecture.photo = json.getString("photo");
-                activity.db.insertLecture(lecture.title, lecture.published);
+                lecture.video = json.getString("video");
+                lecture.shownotes = json.getString("shownotes");
+                activity.db.insertLecture(lecture.title, lecture.published, lecture.photo, lecture.video, lecture.shownotes);
                 activity.lectures.add(lecture);
                 Log.e("Lecture " + i.toString(), lecture.title + " " + lecture.published);
             }

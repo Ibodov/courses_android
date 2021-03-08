@@ -11,13 +11,13 @@ public class LecturesDatabase extends SQLiteOpenHelper {
 
     public LecturesDatabase(Context context) {
         //Подключаемся к базе данных
-        super(context, "Ilmhona.Courses", null, 3);
+        super(context, "Ilmhona.Courses", null, 4);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         //Cоздаём таблицу
-        db.execSQL("CREATE TABLE lectures (title text, published text)");
+        db.execSQL("CREATE TABLE lectures (title text, published text, photo text, video text, shownotes text)");
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -34,11 +34,11 @@ public class LecturesDatabase extends SQLiteOpenHelper {
         db.execSQL("DELETE FROM lectures");
     }
 
-    public void insertLecture(String title, String published) {
+    public void insertLecture(String title, String published, String photo, String video, String shownotes) {
         //Подключаем переменную с БД
         SQLiteDatabase db = this.getWritableDatabase();
         //Отправляем SQL для добавления данных
-        db.execSQL("INSERT INTO lectures VALUES('" + title + "', '" + published + "')");
+        db.execSQL("INSERT INTO lectures VALUES('" + title + "', '" + published + "', '" + photo + "', '" + video + "', '" + shownotes + "')");
     }
 
     public ArrayList<Lecture> getLectures() {
@@ -51,6 +51,9 @@ public class LecturesDatabase extends SQLiteOpenHelper {
             Lecture lecture = new Lecture();
             lecture.title = result.getString(0);
             lecture.published = result.getString(1);
+            lecture.photo = result.getString(2);
+            lecture.video = result.getString(3);
+            lecture.shownotes = result.getString(4);
             lecturesArray.add(lecture);
             i = i + 1;
             result.moveToNext();
