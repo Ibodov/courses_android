@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +50,18 @@ public class LecturesAdapter extends RecyclerView.Adapter<LecturesAdapter.ViewHo
         viewHolder.published.setText(activity.lectures.get(index).published);
         Glide.with(activity.getApplicationContext()).load(activity.lectures.get(index).photo).into(viewHolder.photo);
 
+        viewHolder.title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferences.Editor editor = activity.getSharedPreferences("courses", 0).edit();
+                editor.putInt("video", index);
+                editor.apply();
 
+                Intent intent = new Intent(activity.getApplicationContext(), VideoActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                activity.getApplicationContext().startActivity(intent);
+            }
+        });
     }
 
 
