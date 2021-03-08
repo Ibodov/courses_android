@@ -12,7 +12,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class LoadLectures extends AsyncTask<Void, Void, Void> {
+public class LecturesLoader extends AsyncTask<Void, Void, Void> {
 
     public LecturesActivity activity;
     String jsonStr;
