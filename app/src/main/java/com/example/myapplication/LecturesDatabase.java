@@ -61,4 +61,19 @@ public class LecturesDatabase extends SQLiteOpenHelper {
         return lecturesArray;
     }
 
+    public Lecture getLecture(Integer index) {
+        Lecture lecture = new Lecture();
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor result = db.rawQuery("SELECT * FROM lectures LIMIT " + index.toString() + ", 1", null);
+        result.moveToFirst();
+        Integer i = 0;
+
+        lecture.title = result.getString(0);
+        lecture.published = result.getString(1);
+        lecture.photo = result.getString(2);
+        lecture.video = result.getString(3);
+        lecture.shownotes = result.getString(4);
+
+        return lecture;
+    }
 }
