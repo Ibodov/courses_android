@@ -16,7 +16,7 @@ public class LecturesDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        //Создаём таблицу
+        //Cоздаём таблицу
         db.execSQL("CREATE TABLE lectures (title text, published text)");
     }
 
@@ -27,18 +27,18 @@ public class LecturesDatabase extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public void wipeLectures() {
+        //Подключаем переменную с БД
+        SQLiteDatabase db = this.getWritableDatabase();
+        //Отправляем SQL для удаления данных
+        db.execSQL("DELETE FROM lectures");
+    }
+
     public void insertLecture(String title, String published) {
         //Подключаем переменную с БД
         SQLiteDatabase db = this.getWritableDatabase();
         //Отправляем SQL для добавления данных
         db.execSQL("INSERT INTO lectures VALUES('" + title + "', '" + published + "')");
-    }
-
-    public void wipeLectures() {
-        //Подключаем переменную с БД
-        SQLiteDatabase db = this.getWritableDatabase();
-        //Отправляем SQL для очищения данных
-        db.execSQL("DELETE FROM lectures");
     }
 
     public ArrayList<Lecture> getLectures() {
@@ -55,9 +55,7 @@ public class LecturesDatabase extends SQLiteOpenHelper {
             i = i + 1;
             result.moveToNext();
         }
-
         return lecturesArray;
-
     }
 
 }
