@@ -66,11 +66,5 @@ public class LecturesLoader extends AsyncTask<Void, Void, Void> {
         LecturesAdapter adapter = new LecturesAdapter();
         adapter.activity = activity;
         activity.list.setAdapter(adapter);
-/*
-        //Вывод столбцами
-        GridLayoutManager layoutManager = new GridLayoutManager(activity.getApplicationContext(), 2);
-        activity.list.setLayoutManager(layoutManager);
-*/
-
     }
 }
