@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -20,27 +21,38 @@ public class LecturesActivity extends AppCompatActivity {
     TextView token;
     ImageButton exit;
     LecturesActivity activity;
-
+    public LecturesDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lectures);
+        db = new LecturesDatabase(this);
 
         activity = this;
         list = findViewById(R.id.list);
         token = findViewById(R.id.token);
         exit = findViewById(R.id.exit);
 
-
         SharedPreferences prefs = getSharedPreferences("courses", 0);
         token.setText(prefs.getString("token", ""));
+
+        //Вывод строками
+        LinearLayoutManager layoutManager = new LinearLayoutManager(activity.getApplicationContext(), LinearLayoutManager.VERTICAL,false);
+        activity.list.setLayoutManager(layoutManager);
 
 
         LoadLectures loader = new LoadLectures();
         loader.activity = this;
         loader.execute();
 
+
+ /*       lectures = db.getLectures();
+
+        LecturesAdapter adapter = new LecturesAdapter();
+        adapter.activity = activity;
+        activity.list.setAdapter(adapter);
+*/
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

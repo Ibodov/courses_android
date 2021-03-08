@@ -45,14 +45,18 @@ public class LoadToken extends AsyncTask<Void, Void, Void> {
             activity.error.setVisibility(View.INVISIBLE);
             activity.loading.setVisibility(View.INVISIBLE);
             activity.button.setVisibility(View.VISIBLE);
+
         } else {
+
             //Неправильный логин или пароль
             if (jsonStr.equals("400\n")) {
                 activity.error.setVisibility(View.VISIBLE);
                 activity.n_connection.setVisibility(View.INVISIBLE);
                 activity.loading.setVisibility(View.INVISIBLE);
                 activity.button.setVisibility(View.VISIBLE);
-            } else {//Окно загрузки
+
+            } else {
+                //Окно загрузки
                 activity.loading.setVisibility(View.INVISIBLE);
                 activity.button.setVisibility(View.VISIBLE);
 
@@ -60,6 +64,7 @@ public class LoadToken extends AsyncTask<Void, Void, Void> {
                 SharedPreferences.Editor editor = activity.getSharedPreferences("courses", 0).edit();
                 editor.putString("token", jsonStr);
                 editor.apply();
+
                 //Переход в активити
                 Intent intent = new Intent(activity.getApplicationContext(), LecturesActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
