@@ -59,16 +59,11 @@ public class LecturesLoader extends AsyncTask<Void, Void, Void> {
 
         if (jsonStr.equals("")) {
             activity.lectures = activity.db.getLectures();
-
-            LecturesAdapter adapter = new LecturesAdapter();
-            adapter.activity = activity;
-            activity.list.setAdapter(adapter);
-        } else {
-            LecturesAdapter adapter = new LecturesAdapter();
-            adapter.activity = activity;
-            activity.list.setAdapter(adapter);
         }
 
+        LecturesAdapter adapter = new LecturesAdapter();
+        adapter.activity = activity;
+        activity.list.setAdapter(adapter);
 /*
         //Вывод столбцами
         GridLayoutManager layoutManager = new GridLayoutManager(activity.getApplicationContext(), 2);
