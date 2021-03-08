@@ -18,8 +18,7 @@ public class LecturesActivity extends AppCompatActivity {
 
     public ArrayList<Lecture> lectures;
     public RecyclerView list;
-    TextView token;
-    ImageButton exit;
+    Button exit;
     LecturesActivity activity;
     public LecturesDatabase db;
 
@@ -31,28 +30,20 @@ public class LecturesActivity extends AppCompatActivity {
 
         activity = this;
         list = findViewById(R.id.list);
-        token = findViewById(R.id.token);
         exit = findViewById(R.id.exit);
 
         SharedPreferences prefs = getSharedPreferences("courses", 0);
-        token.setText(prefs.getString("token", ""));
 
         //Вывод строками
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity.getApplicationContext(), LinearLayoutManager.VERTICAL,false);
         activity.list.setLayoutManager(layoutManager);
 
 
-        LoadLectures loader = new LoadLectures();
+        LecturesLoader loader = new LecturesLoader();
         loader.activity = this;
         loader.execute();
 
 
- /*       lectures = db.getLectures();
-
-        LecturesAdapter adapter = new LecturesAdapter();
-        adapter.activity = activity;
-        activity.list.setAdapter(adapter);
-*/
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
