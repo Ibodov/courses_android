@@ -48,7 +48,7 @@ public class LecturesAdapter extends RecyclerView.Adapter<LecturesAdapter.ViewHo
 
         viewHolder.title.setText(activity.lectures.get(index).title);
         viewHolder.published.setText(activity.lectures.get(index).published);
-        Glide.with(activity.getApplicationContext()).load(activity.lectures.get(index).photo).into(viewHolder.photo);
+        //Glide.with(activity.getApplicationContext()).load(activity.lectures.get(index).photo).into(viewHolder.photo);
 
         viewHolder.title.setOnClickListener(new View.OnClickListener() {
             @Override
