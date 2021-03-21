@@ -28,7 +28,7 @@ public class LecturesLoader extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... arg0) {
         HTTPHandler sh = new HTTPHandler();
-        jsonStr = sh.makeServiceCall( "https://mncc-android3-courses-backend.k1.cybernet.tj/lectures");
+        jsonStr = sh.makeServiceCall( "http://192.168.88.239:5000/lectures?token="+activity.token);
         if (jsonStr == null) {
             jsonStr = "";
         }

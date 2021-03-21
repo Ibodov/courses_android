@@ -30,7 +30,7 @@ public class LoadToken extends AsyncTask<Void, Void, Void> {
     protected Void doInBackground(Void... arg0) {
         HTTPHandler sh = new HTTPHandler();
         //Вызов бэкенда
-        jsonStr = sh.makeServiceCall( "https://mncc-android3-courses-backend.k1.cybernet.tj/auth?login=" + activity.login.getText() + "&password=" + activity.password.getText());
+        jsonStr = sh.makeServiceCall( "http://192.168.88.239:5000/auth?login=" + activity.login.getText() + "&password=" + activity.password.getText());
 
         return null;
     }

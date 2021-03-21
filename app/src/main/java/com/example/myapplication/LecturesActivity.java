@@ -21,6 +21,10 @@ public class LecturesActivity extends AppCompatActivity {
     Button exit;
     LecturesActivity activity;
     public LecturesDatabase db;
+    public String   token;
+    public Course course;
+    public TextView courseTitleTextView;
+    public TextView mentorFioTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,8 @@ public class LecturesActivity extends AppCompatActivity {
         activity = this;
         list = findViewById(R.id.list);
         exit = findViewById(R.id.exit);
+        courseTitleTextView = findViewById(R.id.tv_course_title);
+        mentorFioTextView = findViewById(R.id.tv_mentor_fio);
 
         SharedPreferences prefs = getSharedPreferences("courses", 0);
 
@@ -43,6 +49,11 @@ public class LecturesActivity extends AppCompatActivity {
         loader.activity = this;
         loader.execute();
 
+        CourseLoader courseLoader = new CourseLoader();
+        courseLoader.activity = this;
+        courseLoader.execute();
+
+        this.token=prefs.getString("token", "");
 
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
